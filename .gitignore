@@ -10,7 +10,7 @@
 
 import requests
 
-api_address = 'http://api.openweathermap.org/data/2.5/weather?appid=ec2d63869466219c12fe44045a6efdd1&q='
+api_address = 'http://api.openweathermap.org/data/2.5/weather?appid={APIKey}='
 location = input("Please enter your city or zip code: ")
 final_url = api_address + location
 unformatted_data = requests.get(final_url).json()
