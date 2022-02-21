@@ -9,17 +9,33 @@
 # display current weather to user and allow them to run again
 
 import requests
+def kelvin_to_fahrenheit(kelvin):
+  farenheit = (float(kelvin) * 1.8) - 459.67
+  return farenheit
+con_1 = True
+con_2 = True
 
-api_address = 'http://api.openweathermap.org/data/2.5/weather?appid={APIKey}='
-location = input("Please enter your city or zip code: ")
-final_url = api_address + location
-unformatted_data = requests.get(final_url).json()
-weather = unformatted_data["weather"][0]["main"]
-kelvin = unformatted_data["main"]["temp"]
-temperature = (float(kelvin) * 1.8) - 459.67
+while con_2:
+    while con_1:
+        api_address = 'http://api.openweathermap.org/data/2.5/weather?appid={API_Key}'
+        location = input("Please enter your city or zip code: ")
+        final_url = api_address + location
+        try:
+            unformatted_data = requests.get(final_url).json()
+            weather = unformatted_data["weather"][0]["main"]
+        except KeyError:
+            print("Invalid location. Please try again.")
+            con_2 ==True
+        else:
+            kelvin = unformatted_data["main"]["temp"]
+            temperature = kelvin_to_fahrenheit(kelvin)
 
-print("Sky conditions are currently: ", weather,",and the temperature is ", temperature,"degrees fahrenheit.")
-
-def kelvin_to_fahrenheit(farenheit):
-    farenheit = (float(kelvin) * 1.8) - 459.67
-    return farenheit
+            print("Sky conditions are currently", weather,"and the temperature is ", round(temperature,2),"degrees fahrenheit.")
+            ask = str(input("Do you want to run this program again(Y/n)?:"))
+            if ask == "Y" or ask == "y":
+                con_1 = True
+            elif ask == "N" or ask == "n":
+                con_1 = False
+            else:
+                print("Invalid input.")
+                break
